@@ -8,17 +8,31 @@ public class Paintball : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        ContactPoint contact = collision.contacts[0];
-        Vector3 hitPoint = contact.point + contact.normal * 0.001f;
-        Quaternion rotation = Quaternion.LookRotation(contact.normal);
+        if (collision.gameObject.CompareTag("PlayerGun"))
+            return;
+        if (collision.gameObject.CompareTag("PaintBall"))
+            return;
+        if (collision.gameObject.CompareTag("PaintableWall"))
+        {
+            ContactPoint contact = collision.contacts[0];
+            Vector3 hitPoint = contact.point + contact.normal * 0.001f;
 
-        // Spawn paint splat
-        GameObject splat = Instantiate(paintSplatPrefab, hitPoint, rotation);
-        splat.transform.Rotate(Vector3.forward, Random.Range(0, 360f));
-        splat.transform.localScale = Vector3.one * splatSize;
-        splat.GetComponent<Renderer>().material.color = GetComponent<Renderer>().material.color;
-        splat.transform.SetParent(collision.transform);
+            Quaternion rotation = Quaternion.LookRotation(contact.normal);
+            rotation *= Quaternion.Euler(0f, 0f, Random.Range(0, 360f));
 
-        Destroy(gameObject); // remove paintball
+            GameObject splat = Instantiate(paintSplatPrefab, hitPoint, rotation);
+
+            splat.transform.localScale = Vector3.one * splatSize;
+
+            splat.GetComponent<Renderer>().material.color = GetComponent<Renderer>().material.color;
+            splat.transform.SetParent(collision.transform);
+
+            Destroy(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
+
 }
