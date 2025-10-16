@@ -15,5 +15,7 @@ public class GunUI : MonoBehaviour
         Color c = gun.CurrentPaintColor;
         c.a = 1f;
         colorIndicator.color = c;
+
+
     }
 }
