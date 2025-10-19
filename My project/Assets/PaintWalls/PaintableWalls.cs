@@ -19,4 +19,16 @@ public class PaintableArea : MonoBehaviour
             Debug.Log("Outside lines! -" + penaltyPerHit);
         }
     }
+    void Awake()
+    {
+        if (paintBounds == null)
+        {
+            paintBounds = GetComponent<Collider>();
+            if (paintBounds == null)
+            {
+                Debug.LogError("No collider found for PaintableArea on " + gameObject.name);
+            }
+        }
+    }
+
 }
