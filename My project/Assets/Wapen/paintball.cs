@@ -8,6 +8,8 @@ public class Paintball : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.CompareTag("Player"))
+            return;
         if (collision.gameObject.CompareTag("PlayerGun"))
             return;
         if (collision.gameObject.CompareTag("PaintBall"))

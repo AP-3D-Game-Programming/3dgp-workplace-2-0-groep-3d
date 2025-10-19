@@ -1,37 +1,42 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
-public class HudUi : MonoBehaviour
+public class hudui : MonoBehaviour
 {
+    [Header("UI References")]
     public TMP_Text moneyText;
-    public TMP_Text timeText;
+    public TMP_Text timerText;
 
-    public TMP_Text ammoText;
-    public Image colorIndicator;
+    [Header("Timer Settings")]
+    public bool countdown = true;
 
-    public IGun currentGun; // assign from GunManager
-
-    void Update()
+    private void Start()
     {
-        UpdateUI();
+        // Ensure GameManager exists
+        if (GameManager.Instance == null)
+        {
+            enabled = false;
+            return;
+        }
     }
 
-    public void UpdateUI()
+    private void Update()
     {
-        if (GameManager.Instance != null)
-        {
-            moneyText.text = $"Money: {GameManager.Instance.CurrentPlayerMoney}";
-            timeText.text = $"Time: {GameManager.Instance.Timer}";
-        }
+        if (GameManager.Instance == null) return;
 
-        if (currentGun != null)
-        {
-            ammoText.text = $"{currentGun.currentAmmo}/{currentGun.maxAmmo}";
+        // Update money
+        moneyText.text = $"{GameManager.Instance.playerMoney}";
 
-            Color c = currentGun.CurrentPaintColor;
-            c.a = 1f;
-            colorIndicator.color = c;
+        // Update timer
+        int timeLeft = Mathf.Max(GameManager.Instance.time, 0);
+        int minutes = timeLeft / 60;
+        int seconds = timeLeft % 60;
+        timerText.text = $"{minutes:00}:{seconds:00}";
+
+        // Optional countdown
+        if (countdown && GameManager.Instance.time > 0)
+        {
+            GameManager.Instance.time -= Mathf.RoundToInt(Time.deltaTime);
         }
     }
 }
