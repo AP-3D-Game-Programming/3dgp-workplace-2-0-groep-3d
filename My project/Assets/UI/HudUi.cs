@@ -27,6 +27,8 @@ public class hudui : MonoBehaviour
         // Update money
         moneyText.text = $"{GameManager.Instance.playerMoney}";
 
+        Debug.Log($"HUD Money Display: {GameManager.Instance.playerMoney}");
+
         // Update timer
         int timeLeft = Mathf.Max(GameManager.Instance.time, 0);
         int minutes = timeLeft / 60;

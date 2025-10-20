@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using TMPro;
 public class GameManager : MonoBehaviour, IHud
 {
     public static GameManager Instance;
@@ -16,6 +16,13 @@ public class GameManager : MonoBehaviour, IHud
 
     [Header("UI References")]
     public GameObject gameOverScreen; // optional
+    public TMP_Text totalMoneyText;   // For TextMeshPro
+
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
 
     private void Awake()
     {
@@ -61,18 +68,40 @@ public class GameManager : MonoBehaviour, IHud
 
     public void EndGame()
     {
-        Time.timeScale = 0f;
+        gameOverScreen.SetActive(true); // show panel first
+        Time.timeScale = 0f; // then freeze game
+
+
+        // Unlock cursor
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         if (gameOverScreen != null)
         {
-            gameOverScreen.SetActive(true);
+
+            // Update total money text
+            if (totalMoneyText != null)
+            {
+                totalMoneyText.text = "Je hebt: " + playerMoney.ToString() + "€ Verdient";
+            }
         }
     }
+
+
+
+
 
     public void RestartGame()
     {
         Time.timeScale = 1f;
+
+        // Lock the cursor for gameplay
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
 
     public void QuitGame()
     {
