@@ -2,53 +2,65 @@ using UnityEngine;
 
 public class PaintableArea : MonoBehaviour
 {
-    public int rewardPerHit = 10; // Geld dat je krijgt als je correct raakt
-    public int penaltyPerHit = 5; // Geld dat je verliest als buiten lijnen
-    public Collider paintBounds;   // Collider die de 'binnen de lijnen'-zone definieert
+    public int rewardPerHit = 10; // Money gained for correct hit
+    public int penaltyPerHit = 5; // Money lost for wrong hit
+    public Collider paintBounds;   // Collider defining the "inside lines" zone
+    public Color requiredColor = Color.black; // The color the player must hit with
 
-    private int hitCount = 0;      // Houdt bij hoeveel keer dit object geraakt is
-    public int maxHits = 10;       // Aantal hits voordat het object verdwijnt
+    private int hitCount = 0;
+    public int maxHits = 10;
 
     public void PaintHit(Vector3 hitPoint, Color paintColor)
     {
-        // Als object al vernietigd is, doe niks
         if (hitCount >= maxHits) return;
 
-        hitCount++; // Tel de hit
+        hitCount++;
 
-        if (paintBounds.bounds.Contains(hitPoint))
+        // Check if hit is inside bounds
+        bool insideBounds = paintBounds.bounds.Contains(hitPoint);
+
+        // Check if the color matches
+        if (paintColor == requiredColor)
         {
-            GameManager.Instance.AddMoney(rewardPerHit);
-            Debug.Log("Correct hit! +" + rewardPerHit);
+            if (insideBounds)
+            {
+                GameManager.Instance.AddMoney(rewardPerHit);
+                Debug.Log("Correct hit with correct color! +" + rewardPerHit);
+            }
+            else
+            {
+                GameManager.Instance.AddMoney(-penaltyPerHit);
+                Debug.Log("Outside lines! -" + penaltyPerHit);
+            }
         }
         else
         {
             GameManager.Instance.AddMoney(-penaltyPerHit);
-            Debug.Log("Outside lines! -" + penaltyPerHit);
+            Debug.Log("Wrong color! -" + penaltyPerHit);
         }
-        CheckDestroy();
 
+        CheckDestroy();
     }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("PaintProjectile"))
         {
-            GameManager.Instance.AddMoney(rewardPerHit);
-            hitCount++;
-            CheckDestroy();
+            Color hitColor = other.GetComponent<Renderer>().material.color;
+            PaintHit(other.transform.position, hitColor);
         }
     }
+
     void Awake()
     {
         if (paintBounds == null)
         {
             paintBounds = GetComponentInChildren<Collider>();
             if (paintBounds == null)
-            {
                 Debug.LogError("No collider found for PaintableArea on " + gameObject.name);
-            }
         }
     }
+
     void CheckDestroy()
     {
         if (hitCount >= maxHits)

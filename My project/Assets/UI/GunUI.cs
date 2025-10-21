@@ -9,6 +9,7 @@ public class GunUI : MonoBehaviour
 
     public void UpdateUI(IGun gun)
     {
+
         if (gun == null) return;
 
         ammoText.text = $"{gun.currentAmmo}/{gun.maxAmmo}";

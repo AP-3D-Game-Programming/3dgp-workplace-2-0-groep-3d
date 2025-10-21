@@ -28,10 +28,15 @@ public class PaintMinigun : MonoBehaviour, IGun
     private bool isReloading = false;
 
     public float spreadAngle = 5f;
+    public Camera playerCamera;
+
     // IGun implementation
     int IGun.currentAmmo => currentAmmo;
     int IGun.maxAmmo => maxAmmo;
     Color IGun.CurrentPaintColor => paintColors.Length > 0 ? paintColors[colorIndex] : Color.white;
+
+    public bool IsReloading => isReloading;
+
     void Start()
     {
         currentAmmo = maxAmmo;
@@ -39,6 +44,12 @@ public class PaintMinigun : MonoBehaviour, IGun
 
     void Update()
     {
+        if (playerCamera != null)
+        {
+            Vector3 lookDirection = playerCamera.transform.forward;
+            firePoint.rotation = Quaternion.LookRotation(lookDirection);
+        }
+
         if (isReloading)
             return;
 
@@ -57,6 +68,7 @@ public class PaintMinigun : MonoBehaviour, IGun
         if (Input.GetKeyDown(KeyCode.E))
             CycleColor();
     }
+
     System.Collections.IEnumerator Reload()
     {
         isReloading = true;
@@ -73,7 +85,7 @@ public class PaintMinigun : MonoBehaviour, IGun
 
         currentAmmo--;
 
-        // Generate random spread
+        // Random spread
         float angle = Random.Range(0f, spreadAngle);
         Vector3 axis = Random.onUnitSphere;
         Vector3 direction = Quaternion.AngleAxis(angle, axis) * firePoint.forward;
@@ -83,15 +95,25 @@ public class PaintMinigun : MonoBehaviour, IGun
         Rigidbody rb = ball.GetComponent<Rigidbody>();
         rb.linearVelocity = direction * 10f; // bullet speed
 
+        // Apply color
         Color c = paintColors[colorIndex];
         c.a = 1f;
         ball.GetComponent<Renderer>().material.color = c;
 
+        // Alert nearby cops
+        AlertNearbyCops();
+
         Debug.Log("Ammo: " + currentAmmo + "/" + maxAmmo);
     }
 
-
-
+    void AlertNearbyCops()
+    {
+        PoliceAI[] cops = FindObjectsOfType<PoliceAI>();
+        foreach (PoliceAI cop in cops)
+        {
+            cop.OnPlayerShot(firePoint.position);
+        }
+    }
 
     void CycleColor()
     {

@@ -53,6 +53,17 @@ public class Paintball : MonoBehaviour
 
             Destroy(gameObject);
         }
+        if (collision.gameObject.CompareTag("Police"))
+        {
+            PoliceAI police = collision.gameObject.GetComponent<PoliceAI>();
+            if (police != null)
+            {
+                police.Stun(0.5f);
+            }
+
+            Destroy(gameObject);
+        }
+
         else
         {
             Destroy(gameObject);

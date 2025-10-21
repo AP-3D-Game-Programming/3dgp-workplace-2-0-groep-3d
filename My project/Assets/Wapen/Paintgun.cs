@@ -26,11 +26,14 @@ public class PaintGun : MonoBehaviour, IGun
     public int currentAmmo;
     public float reloadTime = 1.5f;
     private bool isReloading = false;
+    public Camera playerCamera;
 
     // IGun implementation
     int IGun.currentAmmo => currentAmmo;
     int IGun.maxAmmo => maxAmmo;
     Color IGun.CurrentPaintColor => paintColors.Length > 0 ? paintColors[colorIndex] : Color.white;
+
+    public bool IsReloading => isReloading;
     void Start()
     {
         currentAmmo = maxAmmo;
@@ -38,6 +41,13 @@ public class PaintGun : MonoBehaviour, IGun
 
     void Update()
     {
+        if (playerCamera != null)
+        {
+            // Make the gun point where the camera is looking
+            Vector3 lookDirection = playerCamera.transform.forward;
+            firePoint.rotation = Quaternion.LookRotation(lookDirection);
+        }
+
         if (isReloading)
             return;
 
@@ -56,6 +66,7 @@ public class PaintGun : MonoBehaviour, IGun
         if (Input.GetKeyDown(KeyCode.E))
             CycleColor();
     }
+
     System.Collections.IEnumerator Reload()
     {
         isReloading = true;
@@ -79,11 +90,20 @@ public class PaintGun : MonoBehaviour, IGun
         Color c = paintColors[colorIndex];
         c.a = 1f;
         ball.GetComponent<Renderer>().material.color = c;
-
+        AlertNearbyCops();
 
         Debug.Log("Ammo: " + currentAmmo + "/" + maxAmmo);
     }
 
+    void AlertNearbyCops()
+    {
+        PoliceAI[] cops = FindObjectsOfType<PoliceAI>();
+
+        foreach (PoliceAI cop in cops)
+        {
+            cop.OnPlayerShot(firePoint.position);
+        }
+    }
 
     void CycleColor()
     {
