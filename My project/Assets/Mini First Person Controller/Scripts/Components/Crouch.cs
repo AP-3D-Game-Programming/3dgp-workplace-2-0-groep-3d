@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class Crouch : MonoBehaviour
 {
+    [Header("Enable")]
+    [Tooltip("Enable or disable crouch functionality. Default = false (crouch disabled).")]
+    public bool enableCrouch = false;
+
     public KeyCode key = KeyCode.LeftControl;
 
     [Header("Slow Movement")]
@@ -36,6 +40,27 @@ public class Crouch : MonoBehaviour
 
     void LateUpdate()
     {
+        // If crouch is disabled via inspector, do nothing.
+        if (!enableCrouch)
+        {
+            // Ensure state is not left in a crouched state
+            if (IsCrouched)
+            {
+                // Restore any defaults if necessary
+                if (headToLower && defaultHeadYLocalPosition.HasValue)
+                    headToLower.localPosition = new Vector3(headToLower.localPosition.x, defaultHeadYLocalPosition.Value, headToLower.localPosition.z);
+                if (colliderToLower && defaultColliderHeight.HasValue)
+                {
+                    colliderToLower.height = defaultColliderHeight.Value;
+                    colliderToLower.center = Vector3.up * colliderToLower.height * .5f;
+                }
+                IsCrouched = false;
+                SetSpeedOverrideActive(false);
+                CrouchEnd?.Invoke();
+            }
+
+            return;
+        }
         if (Input.GetKey(key))
         {
             // Enforce a low head.
