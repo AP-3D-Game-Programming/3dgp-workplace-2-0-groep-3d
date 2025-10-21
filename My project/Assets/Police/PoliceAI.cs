@@ -21,6 +21,7 @@ public class PoliceAI : MonoBehaviour
     private Transform player;
     private bool isStunned = false;
     private float stunTimer = 0f;
+    private Animator animator;
 
     void Start()
     {
