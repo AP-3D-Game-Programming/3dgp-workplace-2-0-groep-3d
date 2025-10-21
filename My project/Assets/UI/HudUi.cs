@@ -25,7 +25,7 @@ public class hudui : MonoBehaviour
         if (GameManager.Instance == null) return;
 
         // Update money
-        moneyText.text = $"{GameManager.Instance.playerMoney}";
+        moneyText.text = $"€{GameManager.Instance.playerMoney}";
 
         Debug.Log($"HUD Money Display: {GameManager.Instance.playerMoney}");
 
