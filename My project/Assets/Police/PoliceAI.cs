@@ -25,6 +25,7 @@ public class PoliceAI : MonoBehaviour
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
@@ -40,15 +41,7 @@ public class PoliceAI : MonoBehaviour
 
     void Update()
     {
-        if (currentState == State.Patrolling)
-        {
-            PatrolBehavior();
-        }
-        else if (currentState == State.Chasing)
-        {
-            ChaseBehavior();
-        }
-
+        // 1. Handle stun first
         if (isStunned)
         {
             stunTimer -= Time.deltaTime;
@@ -58,15 +51,29 @@ public class PoliceAI : MonoBehaviour
                 agent.isStopped = false; // resume movement
                 Debug.Log(name + " recovered from stun!");
             }
-            return; // skip the rest of Update while stunned
+
+            animator.SetFloat("Speed", 0f); // idle while stunned
+            return; // skip the rest of Update
         }
 
-        // Existing logic
+        // 2. Handle AI behavior
         if (currentState == State.Patrolling)
+        {
             PatrolBehavior();
+        }
         else if (currentState == State.Chasing)
+        {
             ChaseBehavior();
+        }
+
+
+        // <<--- Put Debug.Log here to check speed
+
+
+        float currentSpeed = agent.velocity.magnitude;
+        animator.SetFloat("Speed", currentSpeed);
     }
+
 
     void PatrolBehavior()
     {
