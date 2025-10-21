@@ -646,6 +646,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 69614552261727741, guid: 5b9e5d30206c499408543ee7ad0a7eb6, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1264609801121031696, guid: 5b9e5d30206c499408543ee7ad0a7eb6, type: 3}
       propertyPath: reloadTime
       value: 1
@@ -2020,6 +2024,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2442672171814975417, guid: f20f163d57f03dc4bbac0b2dad310d2a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 270.6
+      objectReference: {fileID: 0}
     - target: {fileID: 2506409977267993469, guid: f20f163d57f03dc4bbac0b2dad310d2a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2104,8 +2112,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hud 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4251848358490326433, guid: f20f163d57f03dc4bbac0b2dad310d2a, type: 3}
+      propertyPath: m_margin.z
+      value: 15.379578
+      objectReference: {fileID: 0}
+    - target: {fileID: 6957830280832922396, guid: f20f163d57f03dc4bbac0b2dad310d2a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 413
+      objectReference: {fileID: 0}
+    - target: {fileID: 6957830280832922396, guid: f20f163d57f03dc4bbac0b2dad310d2a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 228
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 9141403520564757985, guid: f20f163d57f03dc4bbac0b2dad310d2a, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f20f163d57f03dc4bbac0b2dad310d2a, type: 3}
@@ -2238,6 +2259,10 @@ PrefabInstance:
     - target: {fileID: 1682774041322450704, guid: d6a5b1cce45632a4e93653ae9f365d00, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2867376966457107565, guid: d6a5b1cce45632a4e93653ae9f365d00, type: 3}
+      propertyPath: playerMoney
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
