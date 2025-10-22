@@ -58,7 +58,7 @@ public class Paintball : MonoBehaviour
             PoliceAI police = collision.gameObject.GetComponent<PoliceAI>();
             if (police != null)
             {
-                police.Stun(0.5f);
+                police.Stun(2f);
             }
 
             Destroy(gameObject);

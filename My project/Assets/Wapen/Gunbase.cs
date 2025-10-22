@@ -6,7 +6,7 @@ public interface IGun
     int currentAmmo { get; }
     int maxAmmo { get; }
     Color CurrentPaintColor { get; }
-
+    int totalAmmo { get; }
 
 }
 

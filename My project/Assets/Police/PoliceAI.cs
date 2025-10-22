@@ -29,7 +29,6 @@ public class PoliceAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
-
         if (patrolPoints.Length == 0)
         {
             Debug.LogWarning("No patrol points assigned for " + gameObject.name);
@@ -52,8 +51,16 @@ public class PoliceAI : MonoBehaviour
                 Debug.Log(name + " recovered from stun!");
             }
 
-            animator.SetFloat("Speed", 0f); // idle while stunned
-            return; // skip the rest of Update
+            // Play stunned animation
+            animator.SetBool("Stunned", true);
+            animator.SetBool("isMoving", false);
+            animator.SetBool("isSprinting", false);
+            return; // skip the rest of Update while stunned
+        }
+        else
+        {
+            // Stun is over
+            animator.SetBool("Stunned", false);
         }
 
         // 2. Handle AI behavior
@@ -66,12 +73,10 @@ public class PoliceAI : MonoBehaviour
             ChaseBehavior();
         }
 
-
-        // <<--- Put Debug.Log here to check speed
-
-
-        float currentSpeed = agent.velocity.magnitude;
-        animator.SetFloat("Speed", currentSpeed);
+        // 3. Update animator movement
+        bool isMoving = agent.desiredVelocity.magnitude > 0.1f && !agent.isStopped && !waiting;
+        animator.SetBool("isMoving", isMoving);
+        animator.SetBool("isSprinting", currentState == State.Chasing && isMoving);
     }
 
 
@@ -81,6 +86,7 @@ public class PoliceAI : MonoBehaviour
 
         if (waiting)
         {
+            animator.SetBool("isMoving", false);
             waitTimer -= Time.deltaTime;
             if (waitTimer <= 0f)
             {
@@ -93,6 +99,7 @@ public class PoliceAI : MonoBehaviour
             if (!agent.pathPending && agent.remainingDistance < 0.5f)
             {
                 waiting = true;
+                animator.SetBool("isMoving", false);
                 waitTimer = waitTime;
             }
         }
@@ -109,8 +116,12 @@ public class PoliceAI : MonoBehaviour
         if (Vector3.Distance(transform.position, player.position) > hearingRadius * 1.5f)
         {
             currentState = State.Patrolling;
+            waiting = true;
+            waitTimer = waitTime;
+            agent.isStopped = false;
             GoToNextPoint();
         }
+
     }
 
     void GoToNextPoint()
@@ -121,8 +132,6 @@ public class PoliceAI : MonoBehaviour
         currentPointIndex = (currentPointIndex + 1) % patrolPoints.Length;
     }
 
-
-
     public void OnPlayerShot(Vector3 shotPosition)
     {
         float distance = Vector3.Distance(transform.position, shotPosition);
@@ -132,6 +141,7 @@ public class PoliceAI : MonoBehaviour
             currentState = State.Chasing;
         }
     }
+
     public void Stun(float duration)
     {
         if (!isStunned)
