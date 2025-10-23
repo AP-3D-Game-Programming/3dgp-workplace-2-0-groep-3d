@@ -6,10 +6,10 @@ public class PoliceAI : MonoBehaviour
     public Transform[] patrolPoints;
     public float waitTime = 2f;
     public bool loop = true;
-    public float hearingRadius = 20f;  // How far the cop can hear gunshots
+    public float hearingRadius = 20f;
     public float chaseSpeed = 6f;
     public float patrolSpeed = 3.5f;
-
+    public float stopChase = 30f;
     private int currentPointIndex = 0;
     private NavMeshAgent agent;
     private bool waiting = false;
@@ -109,20 +109,22 @@ public class PoliceAI : MonoBehaviour
     {
         agent.speed = chaseSpeed;
 
-        if (player != null)
-            agent.SetDestination(player.position);
+        if (player == null)
+            return;
 
-        // Optional: return to patrol if player gets far away
-        if (Vector3.Distance(transform.position, player.position) > hearingRadius * 1.5f)
+        // Keep chasing player
+        agent.SetDestination(player.position);
+
+        // Distance check
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        // Stop chasing when player is too far
+        if (distanceToPlayer > stopChase)
         {
-            currentState = State.Patrolling;
-            waiting = true;
-            waitTimer = waitTime;
-            agent.isStopped = false;
-            GoToNextPoint();
+            StopChasing();
         }
-
     }
+
 
     void GoToNextPoint()
     {
@@ -137,9 +139,18 @@ public class PoliceAI : MonoBehaviour
         float distance = Vector3.Distance(transform.position, shotPosition);
         if (distance <= hearingRadius)
         {
-            Debug.Log(gameObject.name + " heard a gunshot!");
+            Debug.Log(gameObject.name + " heard a gunshot");
             currentState = State.Chasing;
         }
+    }
+    public void StopChasing()
+    {
+        currentState = State.Patrolling;
+        waiting = true;
+        waitTimer = waitTime;
+        agent.isStopped = false;
+        GoToNextPoint();
+        Debug.Log(name + " stopped chasing");
     }
 
     public void Stun(float duration)
@@ -149,7 +160,7 @@ public class PoliceAI : MonoBehaviour
             isStunned = true;
             stunTimer = duration;
             agent.isStopped = true;
-            Debug.Log(name + " is stunned!");
+            Debug.Log(name + " is stunned");
         }
     }
 }
