@@ -3,11 +3,20 @@ using UnityEngine;
 public class GunManager : MonoBehaviour
 {
     public static GunManager Instance;
+
     public MonoBehaviour[] gunObjects;
     private IGun[] guns;
 
-    public GunUI gunUI;       // Reference to the UI
+    public GunSelectionUI gunSelectionUI;
+    public WeaponUI[] weaponUIs;
+    public GunUI gunUI;
+
     private int currentGunIndex = 0;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -15,26 +24,29 @@ public class GunManager : MonoBehaviour
         for (int i = 0; i < gunObjects.Length; i++)
         {
             guns[i] = gunObjects[i] as IGun;
-            gunObjects[i].gameObject.SetActive(i == 0); // Activate only the first gun
+            gunObjects[i].gameObject.SetActive(i == 0);
+
+            if (weaponUIs != null && i < weaponUIs.Length)
+            {
+                weaponUIs[i].SetGun(guns[i]);
+            }
         }
 
         currentGunIndex = 0;
         gunUI.UpdateUI(guns[currentGunIndex]);
+        gunSelectionUI.Highlight(currentGunIndex);
+        UpdateWeaponUISelection();
     }
-
 
     private void Update()
     {
-        // Switch guns with number keys 1,2,3...
         for (int i = 0; i < guns.Length; i++)
         {
             if (Input.GetKeyDown((i + 1).ToString()))
             {
-                // Prevent switching if the current gun is reloading
                 IGun currentGun = guns[currentGunIndex];
-                if (currentGun is PaintGun pg && pg.IsReloading)
-                    return;
-                if (currentGun is PaintMinigun pmg && pmg.IsReloading)
+                if ((currentGun is PaintGun pg && pg.IsReloading) ||
+                    (currentGun is PaintMinigun pmg && pmg.IsReloading))
                     return;
 
                 ActivateGun(i);
@@ -42,11 +54,8 @@ public class GunManager : MonoBehaviour
             }
         }
 
-        // Update UI
         gunUI.UpdateUI(guns[currentGunIndex]);
     }
-
-
 
     private void ActivateGun(int index)
     {
@@ -58,33 +67,41 @@ public class GunManager : MonoBehaviour
         currentGunIndex = index;
 
         gunUI.UpdateUI(guns[currentGunIndex]);
+        gunSelectionUI.Highlight(index);
+
+        UpdateWeaponUISelection();
     }
+
+    private void UpdateWeaponUISelection()
+    {
+        for (int i = 0; i < weaponUIs.Length; i++)
+        {
+            weaponUIs[i].SetSelected(i == currentGunIndex);
+        }
+    }
+
     public void AddGun(GameObject gunPrefab)
     {
-        // Check if gun already exists
         foreach (var obj in gunObjects)
             if (obj.gameObject.name == gunPrefab.name)
                 return;
 
-        // Create a new array bigger by one
         MonoBehaviour[] newGunObjects = new MonoBehaviour[gunObjects.Length + 1];
         IGun[] newGuns = new IGun[guns.Length + 1];
 
-        // Copy existing guns
         for (int i = 0; i < gunObjects.Length; i++)
         {
             newGunObjects[i] = gunObjects[i];
             newGuns[i] = guns[i];
         }
 
-        // Instantiate the new gun as a child
         GameObject newGunObj = Instantiate(gunPrefab, transform);
         newGunObj.SetActive(false);
 
         MonoBehaviour mono = newGunObj.GetComponent<MonoBehaviour>();
         if (mono == null)
         {
-            Debug.LogError("Gun prefab must have a MonoBehaviour implementing IGun");
+            Debug.LogError("prefab");
             Destroy(newGunObj);
             return;
         }
@@ -94,6 +111,10 @@ public class GunManager : MonoBehaviour
 
         gunObjects = newGunObjects;
         guns = newGuns;
-    }
 
+        if (weaponUIs != null && weaponUIs.Length >= newGunObjects.Length)
+        {
+            weaponUIs[newGunObjects.Length - 1].SetGun(mono as IGun);
+        }
+    }
 }

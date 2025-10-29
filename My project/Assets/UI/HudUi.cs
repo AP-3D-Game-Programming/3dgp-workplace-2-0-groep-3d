@@ -24,18 +24,15 @@ public class hudui : MonoBehaviour
     {
         if (GameManager.Instance == null) return;
 
-        // Update money
+
         moneyText.text = $"€{GameManager.Instance.playerMoney}";
 
-        Debug.Log($"HUD Money Display: {GameManager.Instance.playerMoney}");
 
-        // Update timer
         int timeLeft = Mathf.Max(GameManager.Instance.time, 0);
         int minutes = timeLeft / 60;
         int seconds = timeLeft % 60;
         timerText.text = $"{minutes:00}:{seconds:00}";
 
-        // Optional countdown
         if (countdown && GameManager.Instance.time > 0)
         {
             GameManager.Instance.time -= Mathf.RoundToInt(Time.deltaTime);

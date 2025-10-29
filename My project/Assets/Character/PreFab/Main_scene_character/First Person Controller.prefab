@@ -561,7 +561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceThreshold: 0.2
-  isGrounded: 1
+  isGrounded: 0
 --- !u!1 &3633145613374265852
 GameObject:
   m_ObjectHideFlags: 0
@@ -1485,6 +1485,8 @@ MonoBehaviour:
   gunObjects:
   - {fileID: 1060544688260655697}
   - {fileID: 2983837648068335589}
+  gunSelectionUI: {fileID: 0}
+  weaponUIs: []
   gunUI: {fileID: 0}
 --- !u!1001 &4498089856931746163
 PrefabInstance:

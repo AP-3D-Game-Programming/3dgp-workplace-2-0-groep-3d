@@ -1,42 +1,73 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FirstPersonMovement : MonoBehaviour
 {
+    [Header("Movement")]
     public float speed = 5;
-
-    [Header("Running")]
     public bool canRun = true;
-    public bool IsRunning { get; private set; }
     public float runSpeed = 9;
     public KeyCode runningKey = KeyCode.LeftShift;
 
-    Rigidbody rigidbody;
-    /// <summary> Functions to override movement speed. Will use the last added override. </summary>
-    public List<System.Func<float>> speedOverrides = new List<System.Func<float>>();
+    [Header("Map")]
+    public Camera topDownCamera;
+    public GameObject mapUI;
+    public GameObject[] otherUI;
+    public KeyCode toggleMapKey = KeyCode.M;
 
-
+    private bool mapActive = false;
+    private Rigidbody rb;
+    public bool IsRunning { get; private set; }
 
     void Awake()
     {
-        // Get the rigidbody on this.
-        rigidbody = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
+
+        if (topDownCamera != null)
+            topDownCamera.gameObject.SetActive(false);
+
+        if (mapUI != null)
+            mapUI.SetActive(false);
+    }
+
+    void Update()
+    {
+        ToggleMap();
     }
 
     void FixedUpdate()
     {
-        // Running
+        if (!mapActive)
+            HandleMovement();
+    }
+
+    void HandleMovement()
+    {
         IsRunning = canRun && Input.GetKey(runningKey);
         float targetSpeed = IsRunning ? runSpeed : speed;
-        if (speedOverrides.Count > 0)
-            targetSpeed = speedOverrides[speedOverrides.Count - 1]();
 
-        // Input
         Vector3 move = transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical");
         move *= targetSpeed;
 
-        // Apply horizontal movement, keep vertical velocity intact
-        rigidbody.linearVelocity = new Vector3(move.x, rigidbody.linearVelocity.y, move.z);
+        rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
     }
 
+    void ToggleMap()
+    {
+        if (Input.GetKeyDown(toggleMapKey))
+        {
+            mapActive = !mapActive;
+
+            if (topDownCamera != null)
+                topDownCamera.gameObject.SetActive(mapActive);
+
+            if (mapUI != null)
+                mapUI.SetActive(mapActive);
+
+            foreach (var ui in otherUI)
+            {
+                if (ui != null)
+                    ui.SetActive(!mapActive);
+            }
+        }
+    }
 }

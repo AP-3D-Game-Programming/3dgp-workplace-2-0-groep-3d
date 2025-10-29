@@ -45,4 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   playerMoney: 100
+  startTime: 180
   time: 180
+  timerRunning: 1
+  gameOverScreen: {fileID: 0}
+  totalMoneyText: {fileID: 0}

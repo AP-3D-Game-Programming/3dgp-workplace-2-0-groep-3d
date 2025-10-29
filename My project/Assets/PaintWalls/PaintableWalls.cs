@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class PaintableArea : MonoBehaviour
 {
-    public int rewardPerHit = 10; // Money gained for correct hit
-    public int penaltyPerHit = 5; // Money lost for wrong hit
-    public Collider paintBounds;   // Collider defining the "inside lines" zone
-    public Color requiredColor = Color.black; // The color the player must hit with
+    public int rewardPerHit = 10;
+    public int penaltyPerHit = 5;
+    public Collider paintBounds;
+    public Color requiredColor = Color.black;
 
-    private int hitCount = 0;
     public int maxHits = 10;
+    private int hitCount = 0;
+    public GameObject uiElement;
 
     public void PaintHit(Vector3 hitPoint, Color paintColor)
     {
@@ -16,10 +17,8 @@ public class PaintableArea : MonoBehaviour
 
         hitCount++;
 
-        // Check if hit is inside bounds
         bool insideBounds = paintBounds.bounds.Contains(hitPoint);
 
-        // Check if the color matches
         if (paintColor == requiredColor)
         {
             if (insideBounds)
@@ -64,6 +63,12 @@ public class PaintableArea : MonoBehaviour
     void CheckDestroy()
     {
         if (hitCount >= maxHits)
+        {
+            // Destroy the UI element too
+            if (uiElement != null)
+                Destroy(uiElement);
+
             Destroy(gameObject);
+        }
     }
 }
