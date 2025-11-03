@@ -1,2 +1,2 @@
 Game link:
-https://gusttey.itch.io/paint-blast
+https://viktorvd.itch.io/paintblast
