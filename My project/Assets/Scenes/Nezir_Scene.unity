@@ -566,6 +566,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7545387504124025806, guid: 984da64adf402cf438b917f57a28e027, type: 3}
+--- !u!114 &295912110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295912102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10fce8f59a596b46b970e5e8c422e7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CarLoopMovement
+  speed: 5.5
+  moveDirection: {x: 0, y: 0, z: -1}
 --- !u!1 &364905343
 GameObject:
   m_ObjectHideFlags: 0
@@ -978,6 +992,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &576363275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576363271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10fce8f59a596b46b970e5e8c422e7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CarLoopMovement
+  speed: 5.2
+  moveDirection: {x: 0, y: 0, z: -1}
 --- !u!1 &629974659 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6088962128163773307, guid: aa46a8191eabc6143b23df7319a9073d, type: 3}
@@ -1485,6 +1513,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 984da64adf402cf438b917f57a28e027, type: 3}
       insertIndex: -1
       addedObject: {fileID: 295912106}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 984da64adf402cf438b917f57a28e027, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 295912110}
   m_SourcePrefab: {fileID: 100100000, guid: 984da64adf402cf438b917f57a28e027, type: 3}
 --- !u!1 &876521990 stripped
 GameObject:
@@ -1611,6 +1642,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0485817358b7d314394b805308a8baa8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1720323625}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0485817358b7d314394b805308a8baa8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1720323629}
   m_SourcePrefab: {fileID: 100100000, guid: 0485817358b7d314394b805308a8baa8, type: 3}
 --- !u!1001 &1002348122
 PrefabInstance:
@@ -2353,6 +2387,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0324b374ec0e18b4282630ac88715c95, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2020229684}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0324b374ec0e18b4282630ac88715c95, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2020229688}
   m_SourcePrefab: {fileID: 100100000, guid: 0324b374ec0e18b4282630ac88715c95, type: 3}
 --- !u!1 &1720323621 stripped
 GameObject:
@@ -2381,6 +2418,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 8863988234216243179, guid: 0485817358b7d314394b805308a8baa8, type: 3}
+--- !u!114 &1720323629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720323621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10fce8f59a596b46b970e5e8c422e7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CarLoopMovement
+  speed: 5.3
+  moveDirection: {x: 0, y: 0, z: -1}
 --- !u!1001 &1817451927
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2623,6 +2674,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aa46a8191eabc6143b23df7319a9073d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 576363273}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aa46a8191eabc6143b23df7319a9073d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 576363275}
     - targetCorrespondingSourceObject: {fileID: -4819223349682164798, guid: aa46a8191eabc6143b23df7319a9073d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1462771768}
@@ -2738,6 +2792,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1998103250819762001, guid: 0324b374ec0e18b4282630ac88715c95, type: 3}
+--- !u!114 &2020229688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020229680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10fce8f59a596b46b970e5e8c422e7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CarLoopMovement
+  speed: 5
+  moveDirection: {x: 0, y: 0, z: -1}
 --- !u!1001 &2080787673
 PrefabInstance:
   m_ObjectHideFlags: 0
