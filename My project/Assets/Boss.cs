@@ -28,6 +28,17 @@ public class Boss : MonoBehaviour
         {
             fling.Fling(transform.position);
         }
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            GameManager.Instance.EndGame();
+        }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            GameManager.Instance.EndGame();
+        }
+    }
 }
