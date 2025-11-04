@@ -128,7 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   firePoint: {fileID: 8787745809258367325}
   paintballPrefab: {fileID: 1997446704350694933, guid: 3b4b7240a8b0b8c44bb0fccfc2c4f1c9, type: 3}
-  shootForce: 700
+  shootForce: 1000
   paintColors:
   - {r: 0.1, g: 0.1, b: 0.1, a: 1}
   - {r: 1, g: 0, b: 0, a: 0}
