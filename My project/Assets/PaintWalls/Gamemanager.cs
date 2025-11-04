@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 public class GameManager : MonoBehaviour, IHud
@@ -13,6 +14,8 @@ public class GameManager : MonoBehaviour, IHud
     [HideInInspector] public int time; // Current time left
     private float timer;          // Internal floating timer
     public bool timerRunning = true;
+    public Button restartButton;
+    public Button quitButton;
 
     [Header("UI References")]
     public GameObject gameOverScreen; // optional
@@ -22,6 +25,7 @@ public class GameManager : MonoBehaviour, IHud
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
     }
 
     private void Awake()
@@ -31,6 +35,7 @@ public class GameManager : MonoBehaviour, IHud
 
         time = startTime;
         timer = startTime;
+
     }
 
     private void Update()
@@ -68,22 +73,28 @@ public class GameManager : MonoBehaviour, IHud
 
     public void EndGame()
     {
-        gameOverScreen.SetActive(true); // show panel first
-        Time.timeScale = 0f; // then freeze game
+        gameOverScreen.SetActive(true);
 
+        if (restartButton != null)
+        {
+            restartButton.onClick.RemoveAllListeners();
+            restartButton.onClick.AddListener(RestartGame);
+        }
 
-        // Unlock cursor
+        if (quitButton != null)
+        {
+            quitButton.onClick.RemoveAllListeners();
+            quitButton.onClick.AddListener(QuitGame);
+        }
+
+        // Time.timeScale = 0f;
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        if (gameOverScreen != null)
+        if (totalMoneyText != null)
         {
-
-            // Update total money text
-            if (totalMoneyText != null)
-            {
-                totalMoneyText.text = "Je hebt: " + playerMoney.ToString() + "€ Verdient";
-            }
+            totalMoneyText.text = $"Je hebt: {playerMoney}€ Verdient";
         }
     }
 
@@ -91,20 +102,24 @@ public class GameManager : MonoBehaviour, IHud
 
 
 
+
+    // Restart current level
     public void RestartGame()
     {
+        Debug.Log("test");
         Time.timeScale = 1f;
-
-        // Lock the cursor for gameplay
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-
+    // Go back to Main Menu
     public void QuitGame()
     {
-        Application.Quit();
+        Debug.Log("test");
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        SceneManager.LoadScene("MainMenu");
     }
 }

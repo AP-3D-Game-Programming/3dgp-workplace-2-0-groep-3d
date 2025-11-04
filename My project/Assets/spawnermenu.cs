@@ -1,34 +1,27 @@
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
+public class Spawnermenu : MonoBehaviour
 {
     [Header("Spawn Settings")]
     public GameObject cubPrefab;
     public float spawnHeight = 10f;
     public Vector2 spawnRangeX = new Vector2(-5f, 5f);
     public Vector2 spawnRangeZ = new Vector2(-5f, 5f);
-    public float spawnInterval = 2f;
+    public float spawnInterval = 60f;
 
     private float timer;
-    private bool isActive = false;
 
     void Update()
     {
-        if (!isActive) return;
 
         timer += Time.deltaTime;
+
+
         if (timer >= spawnInterval)
         {
             SpawnCub();
             timer = 0f;
         }
-    }
-
-    public void ActivateSpawner()
-    {
-        if (isActive) return;
-        isActive = true;
-        Debug.Log("Spawner activated!");
     }
 
     void SpawnCub()
