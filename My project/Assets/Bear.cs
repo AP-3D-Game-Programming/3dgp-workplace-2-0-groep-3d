@@ -12,6 +12,10 @@ public class Bear : MonoBehaviour
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+
+        // Optional: automatically find player if not set
+        if (player == null && GameObject.FindGameObjectWithTag("Player") != null)
+            player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void Update()
@@ -37,5 +41,25 @@ public class Bear : MonoBehaviour
 
         Vector3 lookPos = new Vector3(player.position.x, transform.position.y, player.position.z);
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookPos - transform.position), Time.deltaTime * 5f);
+    }
+
+    // Detect touching the player
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Bear touched player — Game Over!");
+            GameManager.Instance.EndGame();
+        }
+    }
+
+    // If using a trigger collider instead of physics collision:
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("Bear touched player — Game Over!");
+            GameManager.Instance.EndGame();
+        }
     }
 }

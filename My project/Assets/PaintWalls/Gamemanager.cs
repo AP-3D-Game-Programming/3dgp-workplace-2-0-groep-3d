@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections.Generic;
+
 public class GameManager : MonoBehaviour, IHud
 {
     public static GameManager Instance;
@@ -10,32 +12,49 @@ public class GameManager : MonoBehaviour, IHud
     public int playerMoney = 100;
 
     [Header("Timer Settings")]
-    public int startTime = 180;   // Start time in seconds
-    [HideInInspector] public int time; // Current time left
-    private float timer;          // Internal floating timer
+    public int startTime = 180;
+    [HideInInspector] public int time;
+    private float timer;
     public bool timerRunning = true;
-    public Button restartButton;
-    public Button quitButton;
 
     [Header("UI References")]
-    public GameObject gameOverScreen; // optional
-    public TMP_Text totalMoneyText;   // For TextMeshPro
+    public GameObject gameOverScreen;
+    public Button restartButton;
+    public Button quitButton;
+    public TMP_Text totalMoneyText;
 
-    void Start()
+    [Header("Wall Progress UI")]
+    public TMP_Text wallsProgressText; // Drag a TextMeshPro UI element here
+    public int requiredWallsToExit = 5; // How many walls must be painted before leaving
+
+    private List<PaintableArea> allWalls = new List<PaintableArea>();
+    private int completedWalls = 0;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            playerMoney = PlayerPrefs.GetInt("PlayerMoney", 100);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        time = startTime;
+        timer = startTime;
+    }
+
+    private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-    }
-
-    private void Awake()
-    {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
-
-        time = startTime;
-        timer = startTime;
-
+        RegisterAllWalls();
+        UpdateWallsUI();
     }
 
     private void Update()
@@ -44,8 +63,8 @@ public class GameManager : MonoBehaviour, IHud
 
         if (timer > 0)
         {
-            timer -= Time.deltaTime; // countdown smoothly
-            time = Mathf.CeilToInt(timer); // convert to integer for display
+            timer -= Time.deltaTime;
+            time = Mathf.CeilToInt(timer);
         }
         else
         {
@@ -56,6 +75,44 @@ public class GameManager : MonoBehaviour, IHud
         }
     }
 
+    // ------------------------------
+    // WALL PROGRESS SYSTEM
+    // ------------------------------
+    public void RegisterAllWalls()
+    {
+        allWalls.Clear();
+        allWalls.AddRange(FindObjectsOfType<PaintableArea>());
+    }
+
+    public void WallCompleted(PaintableArea wall)
+    {
+        completedWalls++;
+        UpdateWallsUI();
+    }
+
+    public void UpdateWallsUI()
+    {
+        if (wallsProgressText == null) return;
+
+        // Clamp so it never exceeds requiredWallsToExit
+        int shownCompleted = Mathf.Min(completedWalls, requiredWallsToExit);
+        wallsProgressText.text = $"Walls Painted: {shownCompleted}/{requiredWallsToExit}";
+
+        // Change color when requirement met
+        if (HasMetWallGoal())
+            wallsProgressText.color = Color.green;
+        else
+            wallsProgressText.color = Color.white;
+    }
+
+    public bool HasMetWallGoal()
+    {
+        return completedWalls >= requiredWallsToExit;
+    }
+
+    // ------------------------------
+    // MONEY & GAME ENDING
+    // ------------------------------
     public int CurrentPlayerMoney => playerMoney;
     public int Timer => time;
 
@@ -64,6 +121,7 @@ public class GameManager : MonoBehaviour, IHud
         playerMoney += amount;
         playerMoney = Mathf.Max(playerMoney, 0);
         Debug.Log($"Money: {playerMoney}");
+        PlayerPrefs.SetInt("PlayerMoney", playerMoney);
     }
 
     private void OnTimerEnd()
@@ -73,7 +131,8 @@ public class GameManager : MonoBehaviour, IHud
 
     public void EndGame()
     {
-        gameOverScreen.SetActive(true);
+        if (gameOverScreen != null)
+            gameOverScreen.SetActive(true);
 
         if (restartButton != null)
         {
@@ -87,8 +146,6 @@ public class GameManager : MonoBehaviour, IHud
             quitButton.onClick.AddListener(QuitGame);
         }
 
-        // Time.timeScale = 0f;
-
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
@@ -98,28 +155,27 @@ public class GameManager : MonoBehaviour, IHud
         }
     }
 
-
-
-
-
-
-    // Restart current level
     public void RestartGame()
     {
-        Debug.Log("test");
+        Debug.Log("Restarting game...");
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    // Go back to Main Menu
     public void QuitGame()
     {
-        Debug.Log("test");
+        Debug.Log("Returning to main menu...");
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         SceneManager.LoadScene("MainMenu");
+    }
+
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.SetInt("PlayerMoney", playerMoney);
+        PlayerPrefs.Save();
     }
 }

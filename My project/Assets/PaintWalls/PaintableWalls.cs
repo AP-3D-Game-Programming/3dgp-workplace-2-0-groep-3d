@@ -11,6 +11,16 @@ public class PaintableArea : MonoBehaviour
     private int hitCount = 0;
     public GameObject uiElement;
 
+    void Awake()
+    {
+        if (paintBounds == null)
+        {
+            paintBounds = GetComponentInChildren<Collider>();
+            if (paintBounds == null)
+                Debug.LogError("No collider found for PaintableArea on " + gameObject.name);
+        }
+    }
+
     public void PaintHit(Vector3 hitPoint, Color paintColor)
     {
         if (hitCount >= maxHits) return;
@@ -50,21 +60,14 @@ public class PaintableArea : MonoBehaviour
         }
     }
 
-    void Awake()
-    {
-        if (paintBounds == null)
-        {
-            paintBounds = GetComponentInChildren<Collider>();
-            if (paintBounds == null)
-                Debug.LogError("No collider found for PaintableArea on " + gameObject.name);
-        }
-    }
-
     void CheckDestroy()
     {
         if (hitCount >= maxHits)
         {
-            // Destroy the UI element too
+            // Notify GameManager
+            GameManager.Instance.WallCompleted(this);
+
+            // Destroy any attached UI
             if (uiElement != null)
                 Destroy(uiElement);
 
