@@ -5,6 +5,7 @@ public class Paintball : MonoBehaviour
     public GameObject paintSplatPrefab;
     public float splatSize = 0.3f;
     public float destroyDelay = 2f;
+    public int damage = 10;
 
     void OnCollisionEnter(Collision collision)
     {
@@ -44,7 +45,7 @@ public class Paintball : MonoBehaviour
             splat.GetComponent<Renderer>().material.color = GetComponent<Renderer>().material.color;
             splat.transform.SetParent(collision.transform);
 
-            // Check for paintable area
+
             PaintableArea area = collision.gameObject.GetComponent<PaintableArea>();
             if (area != null)
             {
@@ -63,7 +64,24 @@ public class Paintball : MonoBehaviour
 
             Destroy(gameObject);
         }
+        if (collision.gameObject.CompareTag("Bear"))
+        {
+            Bear bear = collision.gameObject.GetComponent<Bear>();
+            if (bear != null)
+                bear.TakeDamage(damage);
 
+            Destroy(gameObject);
+            return;
+        }
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            Boss boss = collision.gameObject.GetComponent<Boss>();
+            if (boss != null)
+                boss.TakeDamage(damage);
+
+            Destroy(gameObject);
+            return;
+        }
         else
         {
             Destroy(gameObject);

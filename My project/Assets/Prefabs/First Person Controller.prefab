@@ -412,18 +412,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3888a1e1c52793144a6d07b8c508772e, type: 3}
   - {fileID: 8300000, guid: 5b26cf3cd5f6b914a80e6d3476caaf86, type: 3}
   - {fileID: 8300000, guid: b16dc74b7376aca46bd0c6be96c940fa, type: 3}
-  crouch: {fileID: 0}
-  crouchStartAudio: {fileID: 6145423755207962160}
-  crouchedAudio: {fileID: 1619151121172863747}
-  crouchEndAudio: {fileID: 36993562325881995}
-  crouchStartSFX:
-  - {fileID: 8300000, guid: 9b910aa79c186384cb17f28fad642b0a, type: 3}
-  - {fileID: 8300000, guid: 8a49e3e94b1e34e47bc5f47c5233c5a5, type: 3}
-  - {fileID: 8300000, guid: 3e0e4a1bf1a03c24a85ad855f4be231e, type: 3}
-  crouchEndSFX:
-  - {fileID: 8300000, guid: aac7fe48a39af6e46a2d48c5d2655976, type: 3}
-  - {fileID: 8300000, guid: e6f44b6fce71be34dbbd6d12cb3d3b8c, type: 3}
-  - {fileID: 8300000, guid: 9d46f9a0e3e8be44aa2dc581bd6e0c97, type: 3}
 --- !u!1 &3508989985839703288
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,6 +693,10 @@ MonoBehaviour:
   canRun: 1
   runSpeed: 9
   runningKey: 304
+  topDownCamera: {fileID: 0}
+  mapUI: {fileID: 0}
+  otherUI: []
+  toggleMapKey: 109
 --- !u!114 &8004156481649676918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -733,8 +725,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GunManager
   gunObjects:
   - {fileID: 1264609801121031696}
-  - {fileID: 7453249480953311820}
-  - {fileID: 8618541811362298477}
   gunSelectionUI: {fileID: 0}
   weaponUIs:
   - {fileID: 0}
@@ -1616,17 +1606,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1581435303934012893, guid: 7c98247763bad754ba78f8a1e5567e50, type: 3}
   m_PrefabInstance: {fileID: 6324936067071737073}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7453249480953311820 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3506594637144641213, guid: 7c98247763bad754ba78f8a1e5567e50, type: 3}
-  m_PrefabInstance: {fileID: 6324936067071737073}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09de728c8514f024db6a01a3fcdeb72a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
 --- !u!1001 &6633265327404142094
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1693,14 +1672,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3855914173315024452, guid: a2f38e43a68fda84b97001f4d71d40fe, type: 3}
   m_PrefabInstance: {fileID: 6633265327404142094}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8618541811362298477 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3140453384902882403, guid: a2f38e43a68fda84b97001f4d71d40fe, type: 3}
-  m_PrefabInstance: {fileID: 6633265327404142094}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea29dde58f61ab5459f61be77eb9c78a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PaintMinigun

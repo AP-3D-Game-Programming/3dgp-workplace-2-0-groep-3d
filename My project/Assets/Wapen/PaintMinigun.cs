@@ -31,6 +31,7 @@ public class PaintMinigun : MonoBehaviour, IGun
     public float recoilSpeed = 10f;
     private Vector3 initialLocalPosition;
     private Coroutine recoilCoroutine; //fix voor recoil bug
+    public int damage = 15;
     public Color CurrentPaintColor
     {
         get
@@ -143,7 +144,9 @@ public class PaintMinigun : MonoBehaviour, IGun
         GameObject ball = Instantiate(paintballPrefab, firePoint.position, Quaternion.LookRotation(direction));
         Rigidbody rb = ball.GetComponent<Rigidbody>();
         rb.AddForce(direction * shootForce);
-
+        Paintball pb = ball.GetComponent<Paintball>();
+        if (pb != null)
+            pb.damage = damage;
         // Apply color
         Color c = paintColors[colorIndex];
         c.a = 1f;

@@ -75,9 +75,7 @@ public class GameManager : MonoBehaviour, IHud
         }
     }
 
-    // ------------------------------
-    // WALL PROGRESS SYSTEM
-    // ------------------------------
+
     public void RegisterAllWalls()
     {
         allWalls.Clear();
@@ -110,9 +108,7 @@ public class GameManager : MonoBehaviour, IHud
         return completedWalls >= requiredWallsToExit;
     }
 
-    // ------------------------------
-    // MONEY & GAME ENDING
-    // ------------------------------
+
     public int CurrentPlayerMoney => playerMoney;
     public int Timer => time;
 
@@ -148,16 +144,20 @@ public class GameManager : MonoBehaviour, IHud
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
         if (totalMoneyText != null)
         {
-            totalMoneyText.text = $"Je hebt: {playerMoney}€ Verdient";
+            int lostMoney = Mathf.FloorToInt(playerMoney * 0.5f);
+            totalMoneyText.text = $"Je hebt: {playerMoney}€ Verdient\nVerloren: {lostMoney}€";
         }
-    }
 
+    }
     public void RestartGame()
     {
         Debug.Log("Restarting game...");
+
+        playerMoney = Mathf.FloorToInt(playerMoney * 0.5f);
+        PlayerPrefs.SetInt("PlayerMoney", playerMoney);
+
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

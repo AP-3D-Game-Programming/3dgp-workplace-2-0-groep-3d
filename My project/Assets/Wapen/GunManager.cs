@@ -5,7 +5,7 @@ public class GunManager : MonoBehaviour
     public static GunManager Instance;
 
     public MonoBehaviour[] gunObjects;
-    private IGun[] guns;
+    public IGun[] guns;
 
     public GunSelectionUI gunSelectionUI;
     public WeaponUI[] weaponUIs;
@@ -56,8 +56,7 @@ public class GunManager : MonoBehaviour
 
         gunUI.UpdateUI(guns[currentGunIndex]);
     }
-
-    private void ActivateGun(int index)
+    public void ActivateGun(int index)
     {
         if (index < 0 || index >= guns.Length) return;
 
@@ -65,12 +64,11 @@ public class GunManager : MonoBehaviour
             gunObjects[i].gameObject.SetActive(i == index);
 
         currentGunIndex = index;
-
         gunUI.UpdateUI(guns[currentGunIndex]);
         gunSelectionUI.Highlight(index);
-
         UpdateWeaponUISelection();
     }
+
 
     private void UpdateWeaponUISelection()
     {
@@ -82,10 +80,29 @@ public class GunManager : MonoBehaviour
 
     public void AddGun(GameObject gunPrefab)
     {
+        // Check if player already has this gun
         foreach (var obj in gunObjects)
             if (obj.gameObject.name == gunPrefab.name)
                 return;
 
+        // Find the gun in children of GunManager
+        MonoBehaviour gunMono = null;
+        foreach (Transform child in transform)
+        {
+            if (child.gameObject.name == gunPrefab.name)
+            {
+                gunMono = child.GetComponent<MonoBehaviour>();
+                break;
+            }
+        }
+
+        if (gunMono == null)
+        {
+            Debug.LogError("Gun not found in player hierarchy: " + gunPrefab.name);
+            return;
+        }
+
+        // Add it to the arrays
         MonoBehaviour[] newGunObjects = new MonoBehaviour[gunObjects.Length + 1];
         IGun[] newGuns = new IGun[guns.Length + 1];
 
@@ -95,26 +112,17 @@ public class GunManager : MonoBehaviour
             newGuns[i] = guns[i];
         }
 
-        GameObject newGunObj = Instantiate(gunPrefab, transform);
-        newGunObj.SetActive(false);
-
-        MonoBehaviour mono = newGunObj.GetComponent<MonoBehaviour>();
-        if (mono == null)
-        {
-            Debug.LogError("prefab");
-            Destroy(newGunObj);
-            return;
-        }
-
-        newGunObjects[newGunObjects.Length - 1] = mono;
-        newGuns[newGuns.Length - 1] = mono as IGun;
+        newGunObjects[newGunObjects.Length - 1] = gunMono;
+        newGuns[newGuns.Length - 1] = gunMono as IGun;
 
         gunObjects = newGunObjects;
         guns = newGuns;
 
+        gunMono.gameObject.SetActive(false);
+
+        // Optional: link weapon UI if needed
         if (weaponUIs != null && weaponUIs.Length >= newGunObjects.Length)
-        {
-            weaponUIs[newGunObjects.Length - 1].SetGun(mono as IGun);
-        }
+            weaponUIs[newGunObjects.Length - 1].SetGun(gunMono as IGun);
     }
+
 }

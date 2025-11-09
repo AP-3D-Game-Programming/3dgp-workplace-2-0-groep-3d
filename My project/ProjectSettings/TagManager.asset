@@ -12,6 +12,7 @@ TagManager:
   - Police
   - Bear
   - Boss
+  - WallsProgressText
   layers:
   - Default
   - TransparentFX

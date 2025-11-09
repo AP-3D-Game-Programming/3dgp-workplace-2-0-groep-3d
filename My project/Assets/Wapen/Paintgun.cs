@@ -29,7 +29,7 @@ public class PaintGun : MonoBehaviour, IGun
     public float recoilSpeed = 10f;
     private Vector3 initialLocalPosition;
     private Coroutine recoilCoroutine; //fix voor recoil bug
-
+    public int damage = 15;
     public Color CurrentPaintColor
     {
         get
@@ -126,6 +126,7 @@ public class PaintGun : MonoBehaviour, IGun
 
     public void Shoot()
     {
+
         if (currentAmmo <= 0)
         {
             Debug.Log("No ammo in magazine!");
@@ -137,7 +138,9 @@ public class PaintGun : MonoBehaviour, IGun
         GameObject ball = Instantiate(paintballPrefab, firePoint.position, firePoint.rotation);
         Rigidbody rb = ball.GetComponent<Rigidbody>();
         rb.AddForce(firePoint.forward * shootForce);
-
+        Paintball pb = ball.GetComponent<Paintball>();
+        if (pb != null)
+            pb.damage = damage;
         Color c = paintColors[colorIndex];
         c.a = 1f;
         ball.GetComponent<Renderer>().material.color = c;
