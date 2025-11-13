@@ -31271,6 +31271,10 @@ PrefabInstance:
       propertyPath: wallsProgressText
       value: 
       objectReference: {fileID: 341598136}
+    - target: {fileID: 2867376966457107565, guid: d6a5b1cce45632a4e93653ae9f365d00, type: 3}
+      propertyPath: requiredWallsToExit
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -36116,6 +36120,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f20f163d57f03dc4bbac0b2dad310d2a, type: 3}
+--- !u!1 &1282582030 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4974572774404561863, guid: f20f163d57f03dc4bbac0b2dad310d2a, type: 3}
+  m_PrefabInstance: {fileID: 1282582029}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1283675213
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58961,6 +58970,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Paintblast Truck
       objectReference: {fileID: 0}
+    - target: {fileID: 6678542170555491043, guid: 9eeac207846e5a44990c6ac9d4a934de, type: 3}
+      propertyPath: lockedUI
+      value: 
+      objectReference: {fileID: 1282582030}
     - target: {fileID: 6678542170555491043, guid: 9eeac207846e5a44990c6ac9d4a934de, type: 3}
       propertyPath: promptUI
       value: 

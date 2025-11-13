@@ -29768,7 +29768,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2279346357404293166, guid: 1a59bd5772dc59548b973b22a174e083, type: 3}
       propertyPath: rewardPerHit
-      value: 2147483647
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3573567045558924639, guid: 1a59bd5772dc59548b973b22a174e083, type: 3}
       propertyPath: m_LocalPosition.x
