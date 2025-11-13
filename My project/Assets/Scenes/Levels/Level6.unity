@@ -42534,6 +42534,33 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 83b7b06b8b7348f419ad4b9a5c93093a, type: 3}
   m_PrefabInstance: {fileID: 670590739}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &670877440 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2791951107399647535, guid: bc35eb8fefe4a9b48af9b404ab2f5fb4, type: 3}
+  m_PrefabInstance: {fileID: 1736672343}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &670877444
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670877440}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7926028300931620294, guid: bc35eb8fefe4a9b48af9b404ab2f5fb4, type: 3}
 --- !u!1001 &670938691
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -110770,6 +110797,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: PaintableWall
       objectReference: {fileID: 0}
+    - target: {fileID: 2791951107399647535, guid: bc35eb8fefe4a9b48af9b404ab2f5fb4, type: 3}
+      propertyPath: m_TagString
+      value: PaintableWall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -2845779275431937956, guid: bc35eb8fefe4a9b48af9b404ab2f5fb4, type: 3}
@@ -110784,6 +110815,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bc35eb8fefe4a9b48af9b404ab2f5fb4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 242043708}
+    - targetCorrespondingSourceObject: {fileID: 2791951107399647535, guid: bc35eb8fefe4a9b48af9b404ab2f5fb4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 670877444}
   m_SourcePrefab: {fileID: 100100000, guid: bc35eb8fefe4a9b48af9b404ab2f5fb4, type: 3}
 --- !u!1 &1736769730 stripped
 GameObject:
