@@ -10,7 +10,7 @@ public class CarLoopMovement : MonoBehaviour
     private float travelDistance = 35f;        // Hoe ver de auto mag rijden voor hij reset
     private Vector3 startPosition;                              // Beginpunt
     private float distanceTraveled = 0f;                        // Afstand sinds laatste start
-
+    private bool isDead = false;
     void Start()
     {
         startPosition = transform.position;
@@ -36,5 +36,30 @@ public class CarLoopMovement : MonoBehaviour
     {
         transform.position = startPosition;
         distanceTraveled = 0f;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (isDead) return;
+
+        BreakBuilding fling = collision.collider.GetComponentInParent<BreakBuilding>();
+        if (fling != null)
+        {
+            fling.Fling(transform.position);
+        }
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            GameManager.Instance.EndGame();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isDead) return;
+
+        if (other.CompareTag("Player"))
+        {
+            GameManager.Instance.EndGame();
+        }
     }
 }

@@ -48086,6 +48086,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4132316606109676129, guid: f20f163d57f03dc4bbac0b2dad310d2a, type: 3}
   m_PrefabInstance: {fileID: 1312190605}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1312190608 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4478667218843112731, guid: f20f163d57f03dc4bbac0b2dad310d2a, type: 3}
+  m_PrefabInstance: {fileID: 1312190605}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &1312190609 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4974572774404561863, guid: f20f163d57f03dc4bbac0b2dad310d2a, type: 3}
+  m_PrefabInstance: {fileID: 1312190605}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1312830648
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61672,6 +61688,14 @@ PrefabInstance:
       propertyPath: totalMoneyText
       value: 
       objectReference: {fileID: 862184037}
+    - target: {fileID: 2867376966457107565, guid: d6a5b1cce45632a4e93653ae9f365d00, type: 3}
+      propertyPath: wallsProgressText
+      value: 
+      objectReference: {fileID: 1312190608}
+    - target: {fileID: 2867376966457107565, guid: d6a5b1cce45632a4e93653ae9f365d00, type: 3}
+      propertyPath: requiredWallsToExit
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -67711,6 +67735,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Paintblast Truck
       objectReference: {fileID: 0}
+    - target: {fileID: 6678542170555491043, guid: 9eeac207846e5a44990c6ac9d4a934de, type: 3}
+      propertyPath: lockedUI
+      value: 
+      objectReference: {fileID: 1312190609}
     - target: {fileID: 6678542170555491043, guid: 9eeac207846e5a44990c6ac9d4a934de, type: 3}
       propertyPath: promptUI
       value: 

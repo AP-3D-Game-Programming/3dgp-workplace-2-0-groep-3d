@@ -35,7 +35,6 @@ public class GameManager : MonoBehaviour, IHud
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
             playerMoney = PlayerPrefs.GetInt("PlayerMoney", 100);
         }
         else
@@ -178,4 +177,5 @@ public class GameManager : MonoBehaviour, IHud
         PlayerPrefs.SetInt("PlayerMoney", playerMoney);
         PlayerPrefs.Save();
     }
+
 }
