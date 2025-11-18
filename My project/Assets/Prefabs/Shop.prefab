@@ -444,13 +444,13 @@ MonoBehaviour:
   shopUI: {fileID: 0}
   shopItems:
   - itemName: Rifle
-    price: 1000
+    price: 250
     gunObjectInPlayer: {fileID: 0}
     isAmmo: 0
     ammoAmount: 0
     ammoMultiplier: 1
   - itemName: Minigun
-    price: 2500
+    price: 500
     gunObjectInPlayer: {fileID: 0}
     isAmmo: 0
     ammoAmount: 0

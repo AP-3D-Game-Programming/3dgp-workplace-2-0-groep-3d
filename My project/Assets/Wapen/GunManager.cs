@@ -11,6 +11,7 @@ public class GunManager : MonoBehaviour
     public WeaponUI[] weaponUIs;
     public GunUI gunUI;
 
+
     private int currentGunIndex = 0;
 
     private void Awake()
@@ -18,14 +19,19 @@ public class GunManager : MonoBehaviour
         Instance = this;
     }
 
+
     private void Start()
     {
         guns = new IGun[gunObjects.Length];
+
         for (int i = 0; i < gunObjects.Length; i++)
         {
             guns[i] = gunObjects[i] as IGun;
+
+            // Activate only the first gun by default
             gunObjects[i].gameObject.SetActive(i == 0);
 
+            // Link weapon UI
             if (weaponUIs != null && i < weaponUIs.Length)
             {
                 weaponUIs[i].SetGun(guns[i]);
@@ -37,6 +43,8 @@ public class GunManager : MonoBehaviour
         gunSelectionUI.Highlight(currentGunIndex);
         UpdateWeaponUISelection();
     }
+
+
 
     private void Update()
     {
@@ -58,7 +66,8 @@ public class GunManager : MonoBehaviour
     }
     public void ActivateGun(int index)
     {
-        if (index < 0 || index >= guns.Length) return;
+        if (index < 0 || index >= gunObjects.Length || gunObjects[index] == null)
+            return; // cannot activate unowned gun
 
         for (int i = 0; i < gunObjects.Length; i++)
             gunObjects[i].gameObject.SetActive(i == index);
@@ -70,13 +79,21 @@ public class GunManager : MonoBehaviour
     }
 
 
+
+
     private void UpdateWeaponUISelection()
     {
         for (int i = 0; i < weaponUIs.Length; i++)
         {
-            weaponUIs[i].SetSelected(i == currentGunIndex);
+            // Show UI only if we have a gun at this index
+            bool hasGun = i < gunObjects.Length && gunObjects[i] != null;
+            weaponUIs[i].gameObject.SetActive(hasGun);
+
+            if (hasGun)
+                weaponUIs[i].SetSelected(i == currentGunIndex);
         }
     }
+
 
     public void AddGun(GameObject gunPrefab)
     {
